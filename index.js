@@ -6,9 +6,16 @@ const cookieParser = require("cookie-parser")
 require("dotenv").config()
 const userRoutes = require("./routes/userRoutes")
 
+const Restaurant = require("./model/Restaurant")
+const RestaurantMenu = require("./model/RestaurantMenu")
+const fs = require('fs');
+
+
+
 
 const cors = require("cors")
 var morgan = require('morgan')
+const restaurantRouter = require("./routes/restaurantRouter")
 
 const app = express()
 
@@ -28,6 +35,13 @@ databasesConnection()
 cloudinary()
 
 app.use("/api/v1/auth", userRoutes)
+app.use("/api/v1/", restaurantRouter)
+
+
+
+
+
+
 
 
 app.get("/", (req, res) => {
