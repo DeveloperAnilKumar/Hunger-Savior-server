@@ -40,6 +40,7 @@ exports.createRestaurantMenu = async (req, res) => {
 exports.updateRestaurantMenu = async (req, res) => {
   try {
     const {menuItem, menuItemPrice, menuImageUrl, menuType, quantity } = req.body;
+   
 
     const updatedMenu = await RestaurantMenu.findByIdAndUpdate(
       req.params.id,

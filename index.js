@@ -16,6 +16,9 @@ const fs = require('fs');
 const cors = require("cors")
 var morgan = require('morgan')
 const restaurantRouter = require("./routes/restaurantRouter")
+const cartRouter = require("./routes/cartRouter")
+const paymentRouter = require("./routes/paymentRouter")
+const orderRouter = require("./routes/orderRouter")
 
 const app = express()
 
@@ -36,6 +39,13 @@ cloudinary()
 
 app.use("/api/v1/auth", userRoutes)
 app.use("/api/v1/", restaurantRouter)
+app.use("/api/v1/", cartRouter)
+app.use("/api/v1/", paymentRouter)
+app.use("/api/v1/", orderRouter)
+
+
+
+
 
 
 
