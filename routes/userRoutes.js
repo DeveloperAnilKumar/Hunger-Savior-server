@@ -8,7 +8,6 @@ const app = express()
 
 app.use(cors())
 
-userRouter.post("/send-otp", sendOtp)
 userRouter.post("/signup", signup)
 userRouter.post("/login", login)
 userRouter.post("/logout", logout)

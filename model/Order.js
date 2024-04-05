@@ -15,6 +15,10 @@ const orderSchema = new mongoose.Schema({
   totalPrice: Number,
   transactionId: String,
   orderItem: { type: [mongoose.Schema.Types.Mixed], required: true },
+  user:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  }
 });
 
 const OrderModel = mongoose.model("Order", orderSchema);

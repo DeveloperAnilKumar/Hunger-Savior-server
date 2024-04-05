@@ -3,7 +3,7 @@ const cartRouter = express.Router();
 const cartController = require('../controller/cartController');
 
 // Route for getting all cart items
-cartRouter.get('/cart/items', cartController.getAllCartItems);
+cartRouter.get('/cart/items/:id', cartController.getAllCartItems);
 
 // Route for adding an item to the cart
 cartRouter.post('/cart/add', cartController.addToCart);

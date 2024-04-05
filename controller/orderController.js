@@ -4,7 +4,7 @@ const Order = require("../model/Order");
 
 exports.createOrder = async (req, res) => {
   try {
-    const { username, orderStatus, totalPrice, transactionId, orderItem } =
+    const { username, orderStatus, totalPrice, transactionId, orderItem , userId } =
       req.body;
     const newOrder = new Order({
       username,
@@ -12,6 +12,7 @@ exports.createOrder = async (req, res) => {
       totalPrice,
       transactionId,
       orderItem,
+      user:userId
     });
    
 
@@ -25,7 +26,8 @@ exports.createOrder = async (req, res) => {
 
 exports.getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find();
+    const id = req.params.id
+    const orders = await Order.find({user:id});
     res.status(200).json(orders);
   } catch (error) {
     console.error("Error getting orders:", error);

@@ -1,82 +1,16 @@
-const OTP = require("../model/OTP");
 const User = require("../model/User");
 const Otp = require("otp-generator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-const generateOTP = () => {
-  return Otp.generate(6, {
-    upperCaseAlphabets: false,
-    specialChars: false,
-    lowerCaseAlphabets: false,
-  });
-};
-
-exports.sendOtp = async (req, res) => {
-  try {
-    const { email } = req.body;
-
-    if (!email) {
-      return res.status(400).json({
-        message: "all fields required",
-        success: false,
-      });
-    }
-
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(401).json({
-        message: "email already registered",
-        success: false,
-      });
-    }
-
-    let otp = generateOTP();
-
-    while (await OTP.findOne({ otp })) {
-      otp = generateOTP();
-    }
-
-    await OTP.create({ email, otp });
-
-    res.status(201).json({
-      message: "OTP sent successfully",
-      success: true,
-      otp,
-    });
-  } catch (error) {
-    console.error("Error sending OTP:", error);
-    res.status(500).json({
-      message: "Internal server error",
-      success: false,
-    });
-  }
-};
-
 exports.signup = async (req, res) => {
   try {
-    const { firstName, lastName, email, password, conformPassword, role, otp } =
-      req.body;
+    const { firstName, lastName, email, password, role } = req.body;
 
-    if (
-      !firstName ||
-      !lastName ||
-      !email ||
-      !password ||
-      !conformPassword ||
-      !role ||
-      !otp
-    ) {
+    if (!firstName || !lastName || !email || !password || !role) {
       return res.status(400).json({
         message: "all fields required",
-        success: false,
-      });
-    }
-
-    if (password !== conformPassword) {
-      return res.status(400).json({
-        message: "passwords do not match",
         success: false,
       });
     }
@@ -85,14 +19,6 @@ exports.signup = async (req, res) => {
     if (userExists) {
       return res.status(400).json({
         message: "user already exists",
-        success: false,
-      });
-    }
-
-    const otpRecord = await OTP.findOne({ email, otp });
-    if (!otpRecord) {
-      return res.status(400).json({
-        message: "invalid OTP",
         success: false,
       });
     }
@@ -123,7 +49,6 @@ exports.signup = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
-
 
     if (!email || !password) {
       return res.status(400).json({

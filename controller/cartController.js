@@ -11,7 +11,6 @@ exports.addToCart = async (req, res) => {
       return res.status(404).json({ message: "Menu item not found" });
     }
 
-    // Check if the item is already in the cart
     let cartItem = await Cart.findOne({ restaurantMenu: menuItem._id });
     if (cartItem) {
       cartItem.quantity += quantity;
@@ -57,7 +56,8 @@ exports.updateCartItemQuantity = async (req, res) => {
 // Get all items in the cart
 exports.getAllCartItems = async (req, res) => {
   try {
-    const cartItems = await Cart.find({}).populate("restaurantMenu");
+    const id = req.params.id
+    const cartItems = await Cart.find({user:id}).populate("restaurantMenu");
     res.json(cartItems);
   } catch (error) {
     res.status(500).json({ message: error.message });
