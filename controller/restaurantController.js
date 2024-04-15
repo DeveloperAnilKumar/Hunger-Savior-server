@@ -39,8 +39,8 @@ exports.createRestaurantMenu = async (req, res) => {
 
 exports.updateRestaurantMenu = async (req, res) => {
   try {
-    const {menuItem, menuItemPrice, menuImageUrl, menuType, quantity } = req.body;
-   
+    const { menuItem, menuItemPrice, menuImageUrl, menuType, quantity } =
+      req.body;
 
     const updatedMenu = await RestaurantMenu.findByIdAndUpdate(
       req.params.id,
@@ -49,7 +49,7 @@ exports.updateRestaurantMenu = async (req, res) => {
         menuItemPrice,
         menuImageUrl,
         menuType,
-        quantity
+        quantity,
       },
       { new: true }
     );
@@ -72,7 +72,7 @@ exports.deleteRestaurantMenu = async (req, res) => {
 
 exports.getAllRestaurants = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 12; 
+  const limit = parseInt(req.query.limit) || 12;
   const skip = (page - 1) * limit;
 
   try {
@@ -95,14 +95,15 @@ exports.getAllRestaurants = async (req, res) => {
   }
 };
 
-
 exports.getRestaurantById = async (req, res) => {
   try {
     // Extract the ID from the request parameters
     const restaurantId = req.params.id;
 
     // Find the restaurant by ID
-    const restaurant = await Restaurant.findById(restaurantId).populate("restaurantMenu");
+    const restaurant = await Restaurant.findById(restaurantId).populate(
+      "restaurantMenu"
+    );
 
     // If the restaurant is not found, return a 404 Not Found response
     if (!restaurant) {
