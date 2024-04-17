@@ -103,7 +103,7 @@ exports.login = async (req, res) => {
   } catch (error) {
     console.log(error);
 
-    res.status(201).json({
+    res.status(200).json({
       message: error.message,
       success: false,
     });
